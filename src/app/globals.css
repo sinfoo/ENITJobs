@@ -226,6 +226,17 @@ h1, h2, h3, .display {
   }
 }
 
+/* Skip link: parked above the viewport, slides in on keyboard focus. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 60;
+  transform: translateY(-200%);
+  transition: transform 0.15s ease;
+}
+.skip-link:focus { transform: none; }
+
 /* ---------- primitives ---------- */
 .card {
   background: var(--surface);
