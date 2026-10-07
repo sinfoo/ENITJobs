@@ -17,8 +17,9 @@ export function fold(s: string): string {
 export function guessType(title: string, description = ""): JobType {
   const t = fold(title);
   const all = `${t} ${fold(description)}`;
-  const pfe = /\bpfe\b|projet de fin d'?etudes?|fin d'?etudes?|final year project|graduation project/;
-  if (pfe.test(t)) return "pfe";
+  // Bare "fin d'études" only counts in the title: descriptions often say it in passing.
+  const pfe = /\bpfe\b|projet de fin d'?etudes?|final year project|graduation project/;
+  if (pfe.test(t) || /fin d'?etudes?/.test(t)) return "pfe";
   if (/\balternan|apprenti|apprenticeship|work-?study/.test(t)) return "alternance";
   if (/\bstage|\bstagiaire|\bintern(ship)?s?\b/.test(t)) return pfe.test(all) ? "pfe" : "stage";
   if (/\bfreelance|\bfreelancer|\bindependant/.test(t)) return "freelance";
@@ -78,6 +79,8 @@ export function matchesProfile(job: NewJob, profile: Profile): boolean {
   const roles = profile.target_roles.map((r) => r.trim()).filter(Boolean);
   if (!roles.length) return true;
   const title = fold(job.title);
+  // "Sales/Business Development" is not a developer role.
+  if (/(sales|business)\s+develop/.test(title) && !/(developer|developpeur|engineer|ingenieur)/.test(title)) return false;
   return roles.some((role) =>
     fold(role)
       .split(/[^a-z0-9#+.]+/)

@@ -29,7 +29,7 @@ export default async function Landing() {
         <nav aria-label={t.a11y.navMain} className="flex items-center gap-1">
           <LangToggle />
           <ThemeToggle current={theme} />
-          <Link href="/app" className="btn btn-primary btn-sm ml-2">
+          <Link href="/app" className="btn btn-primary btn-sm ml-2 hidden sm:inline-flex">
             {t.nav.openApp}
           </Link>
         </nav>
