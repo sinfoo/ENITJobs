@@ -23,9 +23,10 @@ export function guessType(title: string, description = ""): JobType {
   if (/\bstage|\bstagiaire|\bintern(ship)?s?\b/.test(t)) return pfe.test(all) ? "pfe" : "stage";
   if (/\bfreelance|\bfreelancer|\bindependant/.test(t)) return "freelance";
   // Title was not decisive; look at the body with the same priorities.
+  // Bare "stage" is skipped here: in English bodies it usually means "early-stage".
   if (pfe.test(all)) return "pfe";
   if (/\balternan|apprenti|apprenticeship/.test(all)) return "alternance";
-  if (/\bstage\b|\bstagiaire|\binternship/.test(all)) return "stage";
+  if (/\bstagiaire|\binternship\b|\bstage (d'?ete|d'?ingenieur|technicien|ouvrier|conventionne|remunere)|\b(offre|convention|periode|duree) de stage\b/.test(all)) return "stage";
   if (/\bfreelance/.test(all)) return "freelance";
   return "emploi";
 }
@@ -49,8 +50,8 @@ const TECH: [string, RegExp][] = [
   ["Machine Learning", /\bmachine learning\b|\bml\b|\bapprentissage automatique\b/i], ["Deep Learning", /\bdeep learning\b|\bpytorch\b|\btensorflow\b/i],
   ["Data Science", /\bdata scien/i], ["Data Engineering", /\bdata engineer|\bspark\b|\bairflow\b/i], ["NLP", /\bnlp\b|\bllm\b/i],
   ["Pandas", /\bpandas\b/i], ["Embedded", /\bembedded\b|\bembarqu/i], ["STM32", /\bstm32\b/i], ["Arduino", /\barduino\b/i], ["IoT", /\biot\b/i],
-  ["RTOS", /\brtos\b|\bfreertos\b/i], ["Cybersecurity", /\bcybers[eé]cu|\bsecurity\b|\bpentest/i], ["Network", /\bnetwork|\br[eé]seaux?\b|\bcisco\b/i],
-  ["REST API", /\brest(ful)?\b|\bapi\b/i], ["GraphQL", /\bgraphql\b/i], ["Microservices", /\bmicroservices?\b/i], ["Agile", /\bagile\b|\bscrum\b/i],
+  ["RTOS", /\brtos\b|\bfreertos\b/i], ["Cybersecurity", /\bcybers[eé]cu|\bpentest|\bsiem\b|\binfosec|\bsecurity (engineer|analyst|operations)/i],
+  ["Network", /\bnetworking\b|\br[eé]seaux? (informatique|ip|d'entreprise)|\bcisco\b|\btcp\/ip\b/i], ["REST API", /\brest(ful)? api|\bapi rest\b|\brestful\b/i], ["GraphQL", /\bgraphql\b/i], ["Microservices", /\bmicroservices?\b/i], ["Agile", /\bagile\b|\bscrum\b/i],
   ["Tailwind", /\btailwind\b/i], ["Figma", /\bfigma\b/i], ["Odoo", /\bodoo\b/i], ["SAP", /\bsap\b/i], ["Power BI", /\bpower ?bi\b/i],
   ["MATLAB", /\bmatlab\b/i], ["Unity", /\bunity\b/i], ["Blockchain", /\bblockchain\b|\bsolidity\b/i],
 ];

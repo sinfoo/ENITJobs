@@ -110,7 +110,6 @@ CREATE TABLE IF NOT EXISTS kv (
 `;
 
 declare global {
-  // eslint-disable-next-line no-var
   var __enitjobsDb: DatabaseSync | undefined;
 }
 

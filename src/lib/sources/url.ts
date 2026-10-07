@@ -85,7 +85,8 @@ export async function importFromUrl(raw: string): Promise<{ job?: NewJob; text: 
     const ld = pickJsonLdJobPosting(html);
     const job = ld ? fromJsonLd(ld, url.toString()) : fromHtml(html, url);
     if (!job.title) return { text, error: "Could not find a job title on that page" };
-    return { job, text };
+    // JS-rendered pages have almost no body text; the JSON-LD description is the better raw copy then.
+    return { job, text: text.length >= job.description.length ? text : job.description };
   } catch (e) {
     return { text, error: `Could not parse page: ${(e as Error).message}` };
   }

@@ -24,6 +24,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={locale}
+      data-scroll-behavior="smooth"
       data-theme={theme === "system" ? undefined : theme}
       className={`${fraunces.variable} ${figtree.variable} ${jetbrains.variable} h-full`}
     >

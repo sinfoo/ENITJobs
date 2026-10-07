@@ -22,13 +22,14 @@ function link(xml: string): string | undefined {
 }
 
 /** Pull "Company" and "City" out of common job-feed title shapes. */
-function splitTitle(raw: string): { title: string; company?: string; location?: string } {
+function splitTitle(raw: string, wantLocation: boolean): { title: string; company?: string; location?: string } {
   let title = raw.trim();
   let company: string | undefined;
   let location: string | undefined;
   const colon = /^([^:]{2,60}):\s+(.+)$/.exec(title);
   if (colon) [company, title] = [colon[1].trim(), colon[2].trim()];
-  const sep = /^(.+?)\s+(?:-|–|—|\|)\s+([^-–—|]{2,60})$/.exec(title);
+  // Only guess a location from the title when the feed gives none; suffixes are often team names.
+  const sep = wantLocation ? /^(.+?)\s+(?:-|–|—|\|)\s+([^-–—|]{2,60})$/.exec(title) : null;
   if (sep) [title, location] = [sep[1].trim(), sep[2].trim()];
   return { title, company, location };
 }
@@ -45,11 +46,12 @@ export function parseRss(xml: string, feedUrl: string): NewJob[] {
     const rawTitle = tag(it, "title");
     const url = link(it);
     if (!rawTitle || !url) continue;
-    const { title, company, location } = splitTitle(rawTitle);
+    const region = tag(it, "region") ?? tag(it, "location");
+    const { title, company, location } = splitTitle(rawTitle, !region);
     const body = tag(it, "content:encoded") ?? tag(it, "content") ?? tag(it, "description") ?? tag(it, "summary") ?? "";
     const description = htmlToText(body);
     const source = tag(it, "source") || tag(it, "dc:creator") || tag(it, "author")?.replace(/<[^>]+>/g, "").trim();
-    const loc = location ?? tag(it, "region") ?? tag(it, "location") ?? "";
+    const loc = region ?? location ?? "";
     out.push({
       title,
       company: company || source || feedCompany,
