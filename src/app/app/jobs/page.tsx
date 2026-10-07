@@ -40,7 +40,7 @@ export default async function JobsPage({ searchParams }: PageProps<"/app/jobs">)
             <option key={ty} value={ty}>{t.jobTypes[ty]}</option>
           ))}
         </select>
-        <label className="chip cursor-pointer">
+        <label className="chip cursor-pointer min-h-6">
           <input type="checkbox" name="archived" value="1" defaultChecked={archived} /> {t.common.showArchived}
         </label>
         <button className="btn btn-secondary">{t.common.filter}</button>
@@ -66,8 +66,9 @@ export default async function JobsPage({ searchParams }: PageProps<"/app/jobs">)
                   {j.evaluation ? (
                     <ScoreRing value={j.evaluation.global} size={52} label={scoreLabel(t, j.evaluation.global)} animate={false} />
                   ) : (
-                    <span className="size-[52px] rounded-full border border-dashed border-line-strong grid place-items-center text-muted text-xs" aria-label={t.jobs.notEvaluated}>
-                      —
+                    <span className="size-[52px] rounded-full border border-dashed border-line-strong grid place-items-center text-muted text-xs">
+                      <span aria-hidden="true">—</span>
+                      <span className="sr-only">{t.jobs.notEvaluated}</span>
                     </span>
                   )}
                   <div className="min-w-0">

@@ -21,9 +21,12 @@ export function SaveButton({ label, savedLabel, className = "btn btn-primary" }:
     };
   }, [pending]);
   return (
-    <button type="submit" className={className} disabled={pending} aria-live="polite">
-      {pending ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : saved ? <Check size={16} aria-hidden="true" /> : null}
-      {saved ? savedLabel : label}
-    </button>
+    <>
+      <span role="status" className="sr-only">{saved ? savedLabel : ""}</span>
+      <button type="submit" className={className} disabled={pending}>
+        {pending ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : saved ? <Check size={16} aria-hidden="true" /> : null}
+        {saved ? savedLabel : label}
+      </button>
+    </>
   );
 }

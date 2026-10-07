@@ -46,8 +46,8 @@ export default async function SourcesPage() {
                       {t.sources.lastScan}: {s.last_scan ? `${fmtDate(s.last_scan, locale)} · ${fmt(t.sources.found, { n: s.last_count })}` : t.sources.never}
                     </p>
                   </div>
-                  <label className="chip cursor-pointer">
-                    <ToggleBox id={s.id} enabled={s.enabled} /> {t.sources.enabled}
+                  <label className="chip cursor-pointer min-h-6">
+                    <ToggleBox id={s.id} enabled={s.enabled} label={`${t.sources.enabled}: ${s.label}`} /> {t.sources.enabled}
                   </label>
                   <ActionButton action={scanOne.bind(null, s.id)} pendingLabel={t.sources.scanning} className="btn btn-secondary btn-sm">
                     <RefreshCw size={14} aria-hidden="true" /> {t.sources.scan}
@@ -78,8 +78,8 @@ export default async function SourcesPage() {
           </div>
           <div>
             <label className="label" htmlFor="handle">{t.sources.handle}</label>
-            <input id="handle" name="handle" className="input" required />
-            <p className="hint">{t.sources.handleHint}</p>
+            <input id="handle" name="handle" className="input" required aria-describedby="handle-hint" />
+            <p id="handle-hint" className="hint">{t.sources.handleHint}</p>
           </div>
           <div className="flex justify-end"><SaveButton label={t.common.add} savedLabel={t.common.saved} /></div>
         </form>

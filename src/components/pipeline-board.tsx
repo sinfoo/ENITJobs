@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useOptimistic, useTransition, useState } from "react";
+import { useEffect, useOptimistic, useTransition, useState } from "react";
 import { useT } from "@/lib/i18n/client";
 import { APP_STATES, type AppState } from "@/lib/types";
 import type { ApplicationWithJob } from "@/lib/db";
@@ -24,6 +24,11 @@ export function PipelineBoard({ items }: { items: Item[] }) {
   );
   const [dragOver, setDragOver] = useState<AppState | null>(null);
   const [live, setLive] = useState("");
+  const [focusId, setFocusId] = useState<number | null>(null);
+  // Moving a card re-mounts it in another column; put focus back on its select.
+  useEffect(() => {
+    if (focusId !== null) document.getElementById(`mv-${focusId}`)?.focus();
+  }, [focusId, optimistic]);
 
   const doMove = (item: Item, status: AppState) => {
     if (item.status === status) return;
@@ -31,19 +36,19 @@ export function PipelineBoard({ items }: { items: Item[] }) {
       move({ id: item.id, status });
       await moveApplication(item.id, status);
       setLive(`${item.company}: ${t.application.changed} ${t.states[status]}`);
+      setFocusId(item.id);
     });
   };
 
   return (
     <>
       <p className="sr-only" aria-live="polite">{live}</p>
-      <div className="flex gap-3 overflow-x-auto pb-4 -mx-4 px-4 snap-x" role="list" aria-label={t.pipeline.board}>
+      <div className="flex gap-3 overflow-x-auto pb-4 -mx-4 px-4 snap-x" aria-label={t.pipeline.board}>
         {APP_STATES.map((state) => {
           const col = optimistic.filter((x) => x.status === state);
           return (
             <section
               key={state}
-              role="listitem"
               aria-labelledby={`col-${state}`}
               className={`snap-start shrink-0 w-[272px] rounded-2xl border p-2 transition-colors ${
                 dragOver === state ? "border-accent bg-accent-soft/40" : "border-line bg-surface-2/50"
@@ -65,8 +70,9 @@ export function PipelineBoard({ items }: { items: Item[] }) {
                 <h2 id={`col-${state}`} className="font-sans text-sm font-semibold tracking-wide uppercase text-ink-2">
                   {t.states[state]}
                 </h2>
-                <span className="mono text-xs text-muted" aria-label={fmt(t.pipeline.count, { n: col.length })}>
-                  {col.length}
+                <span className="mono text-xs text-muted">
+                  <span aria-hidden="true">{col.length}</span>
+                  <span className="sr-only">{fmt(t.pipeline.count, { n: col.length })}</span>
                 </span>
               </header>
               <ul className="space-y-2 min-h-16">
@@ -91,7 +97,7 @@ export function PipelineBoard({ items }: { items: Item[] }) {
                     </div>
                     <div className="mt-3 flex items-center justify-between gap-2">
                       <label className="sr-only" htmlFor={`mv-${item.id}`}>
-                        {t.pipeline.moveTo} — {item.company}
+                        {t.pipeline.moveTo} — {item.company}, {item.title}
                       </label>
                       <select
                         id={`mv-${item.id}`}

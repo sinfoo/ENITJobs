@@ -42,10 +42,10 @@ export function JobForm({
         {!initial && (
           <form action={fetchAction} className="card p-5 rise" style={{ ["--i" as string]: 1 }}>
             <h2 className="text-xl">{t.jobs.importUrl}</h2>
-            <p className="hint mb-3">{t.jobs.importUrlHint}</p>
+            <p id="fetch-hint" className="hint mb-3">{t.jobs.importUrlHint}</p>
             <label className="sr-only" htmlFor="fetch-url">{t.jobs.fields.url}</label>
             <div className="flex gap-2">
-              <input id="fetch-url" name="url" type="url" className="input" placeholder="https://…" required />
+              <input id="fetch-url" name="url" type="url" className="input" placeholder="https://…" required aria-describedby="fetch-hint" aria-invalid={!!fetchState?.error} />
               <button className="btn btn-secondary" disabled={fetching} aria-busy={fetching}>
                 {fetching ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : <Link2 size={16} aria-hidden="true" />}
                 {fetching ? t.jobs.fetching : t.jobs.fetch}
@@ -62,12 +62,12 @@ export function JobForm({
       <form action={formAction} className="card p-5 space-y-4 rise" style={{ ["--i" as string]: 2 }}>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <label className="label" htmlFor="title">{t.jobs.fields.title} *</label>
-            <input id="title" name="title" className="input" required value={values.title ?? ""} onChange={set("title")} />
+            <label className="label" htmlFor="title">{t.jobs.fields.title} <span aria-hidden="true">*</span></label>
+            <input id="title" name="title" className="input" required aria-required="true" aria-invalid={!!state?.error} aria-describedby={state?.error ? "job-error" : undefined} value={values.title ?? ""} onChange={set("title")} />
           </div>
           <div>
-            <label className="label" htmlFor="company">{t.jobs.fields.company} *</label>
-            <input id="company" name="company" className="input" required value={values.company ?? ""} onChange={set("company")} />
+            <label className="label" htmlFor="company">{t.jobs.fields.company} <span aria-hidden="true">*</span></label>
+            <input id="company" name="company" className="input" required aria-required="true" aria-invalid={!!state?.error} aria-describedby={state?.error ? "job-error" : undefined} value={values.company ?? ""} onChange={set("company")} />
           </div>
           <div>
             <label className="label" htmlFor="location">{t.jobs.fields.location}</label>
@@ -91,7 +91,7 @@ export function JobForm({
             <input id="deadline" name="deadline" type="date" className="input" value={values.deadline ?? ""} onChange={set("deadline")} />
           </div>
           <div className="flex items-end pb-2">
-            <label className="inline-flex items-center gap-2 text-sm">
+            <label className="inline-flex items-center gap-2 text-sm min-h-6">
               <input type="checkbox" name="remote" checked={!!values.remote} onChange={set("remote")} className="accent-[var(--accent)] size-4" />
               {t.jobs.fields.remote}
             </label>
@@ -105,7 +105,7 @@ export function JobForm({
             <textarea id="description" name="description" className="input !min-h-64" value={values.description ?? ""} onChange={set("description")} />
           </div>
         </div>
-        {state?.error && <p role="alert" className="text-sm text-danger">{t.common.error} ({state.error})</p>}
+        {state?.error && <p id="job-error" role="alert" className="text-sm text-danger">{t.common.error} ({state.error})</p>}
         <div className="flex justify-end">
           <button className="btn btn-primary" disabled={pending} aria-busy={pending}>
             {pending && <Loader2 size={16} className="animate-spin" aria-hidden="true" />}

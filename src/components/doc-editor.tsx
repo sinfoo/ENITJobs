@@ -87,11 +87,12 @@ export function DocEditor({
           </>
         )}
       </div>
+      <span role="status" className="sr-only">{copied ? t.common.copied : ""}</span>
       {disabledReason && <p role="status" className="text-sm text-amber mb-3">{disabledReason}</p>}
       {!value && !gen ? (
         <p className="text-muted">{emptyText} <span className="text-ink-2">{generateHint}</span></p>
       ) : gen && !value ? (
-        <p className="text-muted animate-pulse">{t.common.generating}</p>
+        <p role="status" className="text-muted animate-pulse">{t.common.generating}</p>
       ) : mode === "edit" ? (
         <>
           <label className="sr-only" htmlFor="doc-md">{t.application.edit}</label>

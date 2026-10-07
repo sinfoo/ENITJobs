@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink, MapPin, Wifi, Sparkles, Archive, Trash2, Pencil } from "lucide-react";
 import { getDict } from "@/lib/i18n/server";
 import { getJob, withMeta } from "@/lib/db";
-import { fmt } from "@/lib/i18n/dict";
 import { EngineChip, PageHeader, ScoreRing, StateChip, VerdictChip, fmtDate, scoreLabel } from "@/components/ui";
 import { ScoreBreakdown } from "@/components/score-breakdown";
 import { ActionButton } from "@/components/action-button";
@@ -116,7 +115,6 @@ export default async function JobPage({ params }: PageProps<"/app/jobs/[id]">) {
           </div>
         </aside>
       </div>
-      <span className="sr-only">{fmt(t.pipeline.count, { n: 1 })}</span>
     </>
   );
 }

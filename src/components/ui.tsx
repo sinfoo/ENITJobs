@@ -50,7 +50,7 @@ export function ScoreRing({
       </svg>
       <span
         className="absolute mono font-semibold leading-none"
-        style={{ fontSize: size * 0.3, color: scoreColor(value) }}
+        style={{ fontSize: size * 0.3, color: "var(--ink)" }}
       >
         {value.toFixed(1)}
       </span>
@@ -82,7 +82,8 @@ export function StateChip({ state, t }: { state: AppState; t: Dict }) {
 export function EngineChip({ engine, t }: { engine: string; t: Dict }) {
   const offline = engine === "heuristic";
   return (
-    <span className={`chip ${offline ? "chip-amber" : ""}`} title={t.common.engine}>
+    <span className={`chip ${offline ? "chip-amber" : ""}`}>
+      <span className="sr-only">{t.common.engine}: </span>
       <span aria-hidden="true" className="inline-block size-1.5 rounded-full" style={{ background: offline ? "var(--amber)" : "var(--accent)" }} />
       {offline ? t.common.heuristic : engine.replace("ollama:", "Ollama · ")}
     </span>

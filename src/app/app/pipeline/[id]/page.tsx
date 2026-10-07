@@ -209,7 +209,7 @@ function InterviewView({ prep, t }: { prep: InterviewPrep; t: Dict }) {
                 <dl className="mt-1 grid grid-cols-[1.2rem_1fr] gap-x-2 text-sm text-ink-2">
                   {(["situation", "task", "action", "result"] as const).map((k) => (
                     <div key={k} className="contents">
-                      <dt className="mono text-accent uppercase">{k[0]}</dt>
+                      <dt className="mono text-accent uppercase"><span aria-hidden="true">{k[0]}</span><span className="sr-only">{k}</span></dt>
                       <dd>{s[k]}</dd>
                     </div>
                   ))}

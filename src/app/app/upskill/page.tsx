@@ -54,8 +54,9 @@ export default async function UpskillPage() {
                   <span className="h-4 rounded-sm bg-surface-2 overflow-hidden" aria-hidden="true">
                     <span className="block h-full rounded-sm" style={{ width: `${(g.demand / max) * 100}%`, background: g.have ? "var(--accent)" : "var(--amber)", opacity: 0.4 + 0.6 * (g.demand / max) }} />
                   </span>
-                  <span className="mono text-xs text-muted" aria-label={fmt(t.upskill.offersMention, { n: g.demand })}>
-                    {g.demand}
+                  <span className="mono text-xs text-muted">
+                    <span aria-hidden="true">{g.demand}</span>
+                    <span className="sr-only">{fmt(t.upskill.offersMention, { n: g.demand })}</span>
                   </span>
                   <span className="sr-only">{g.have ? t.upskill.have : t.upskill.missing}</span>
                 </li>

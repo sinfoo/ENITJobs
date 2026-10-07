@@ -12,24 +12,24 @@
   --ink-2: #3c4147;
   --muted: #5d636a;
   --line: #d9d2c5;
-  --line-strong: #b9b0a0;
+  --line-strong: #8a8172;
 
   --accent: #0e6b63;
   --accent-strong: #094f49;
   --accent-soft: #d6ebe7;
   --accent-ink: #ffffff;
 
-  --amber: #9a6410;
+  --amber: #86550a;
   --amber-soft: #f6e7c9;
   --danger: #b42318;
   --danger-soft: #f8dcd8;
-  --success: #1f7a4d;
+  --success: #1a6e44;
   --success-soft: #d7efe1;
 
   --score-1: #b42318;
-  --score-2: #c2561c;
+  --score-2: #b04d17;
   --score-3: #9a6410;
-  --score-4: #2f8a6b;
+  --score-4: #23735a;
   --score-5: #0e6b63;
 
   --ring: #0e6b63;
@@ -49,7 +49,7 @@
     --ink-2: #c9c4bb;
     --muted: #a3a9ae;
     --line: #2a2e31;
-    --line-strong: #3d4347;
+    --line-strong: #5c6468;
     --accent: #5cc2b6;
     --accent-strong: #8ad9cf;
     --accent-soft: #143430;
@@ -78,7 +78,7 @@
   --ink-2: #c9c4bb;
   --muted: #a3a9ae;
   --line: #2a2e31;
-  --line-strong: #3d4347;
+  --line-strong: #5c6468;
   --accent: #5cc2b6;
   --accent-strong: #8ad9cf;
   --accent-soft: #143430;
@@ -132,6 +132,9 @@
 html {
   background: var(--paper);
   scroll-behavior: smooth;
+}
+@media (max-width: 1023px) {
+  html { scroll-padding-top: 120px; }
 }
 body {
   background: var(--paper);
@@ -218,6 +221,7 @@ h1, h2, h3, .display {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 }
@@ -240,9 +244,9 @@ h1, h2, h3, .display {
   line-height: 1.4;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
-.input::placeholder { color: var(--muted); opacity: 0.8; }
+.input::placeholder { color: var(--muted); }
 .input:hover { border-color: var(--ink-2); }
-.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.input:focus-visible { outline: 2px solid var(--ring); outline-offset: 0; border-color: var(--accent); }
 textarea.input { min-height: 7rem; resize: vertical; }
 .label {
   display: block;
@@ -281,6 +285,9 @@ textarea.input { min-height: 7rem; resize: vertical; }
 .btn-danger { background: transparent; color: var(--danger); border-color: color-mix(in oklab, var(--danger) 40%, transparent); }
 .btn-danger:hover { background: var(--danger-soft); }
 .btn-sm { min-height: 2rem; padding: 0 0.75rem; font-size: 0.85rem; }
+@media (pointer: coarse) {
+  .btn, .btn-sm { min-height: 2.75rem; }
+}
 
 .chip {
   display: inline-flex;
@@ -321,8 +328,3 @@ textarea.input { min-height: 7rem; resize: vertical; }
   .card { border: 0; box-shadow: none; }
 }
 .print-only { display: none; }
-
-.sr-only {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
-}
