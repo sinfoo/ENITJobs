@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ENITJobs
 
-## Getting Started
+Local-first, AI-assisted job and internship search companion for ENIT students.
 
-First, run the development server:
+- Collect offers from public job boards (Greenhouse, Lever, Ashby, RSS) or paste any posting.
+- Score each offer against your CV on five dimensions with a local model (Ollama), with an offline heuristic fallback.
+- Tailor your CV and cover letter to the posting — French or English — without inventing facts.
+- Track applications from evaluation to offer, prepare interviews, and get a skills plan.
+
+Everything runs on your machine: Next.js + SQLite (`node:sqlite`), no account, no server.
+
+## Run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. Optional: install [Ollama](https://ollama.com) and `ollama pull llama3.1` for AI features.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev` — development server
+- `npm run build && npm start` — production
+- `npm test` — unit tests
+- `npm run typecheck` — TypeScript

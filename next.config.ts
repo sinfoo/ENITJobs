@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Local-first app: every page reads the local SQLite DB, so nothing is
+  // statically cacheable. Keep the classic dynamic rendering model.
   turbopack: {
     rules: {
       "*.css": {
